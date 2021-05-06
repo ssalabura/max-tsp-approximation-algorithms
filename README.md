@@ -2,7 +2,7 @@
 
 Compile:
 
-    g++ -I [path to boost] -O3 src/main.cpp src/[algorithm].cpp -o out/[algorithm]
+    make compile path=[path to boost]
 
 Generate tests:
 
@@ -10,4 +10,4 @@ Generate tests:
 
 Benchmark:
 
-    sh benchmark.sh [test file]
+    make benchmark test=[test file]

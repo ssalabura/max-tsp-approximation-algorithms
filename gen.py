@@ -25,6 +25,6 @@ for i in range(n):
         tab[j].append(x)
 
 for i in range(n):
-    for j in range(n):
+    for j in range(i+1,n):
         print(tab[i][j], end=" ")
     print()
