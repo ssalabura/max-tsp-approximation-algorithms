@@ -43,5 +43,19 @@ int maximum_weighted_2_matching(const Graph &g, vector< pair<int,int> > &matchin
     }
     vector<int> mate(2*n*n);
     maximum_weighted_matching(g_prime, &mate[0]);
+    for(int i=0; i<n; i++) {
+        bool f = false;
+        int core1 = 2*n*i+i;
+        for(int outer=2*n*i; outer<2*n*i+n; outer++) {
+            if(outer != core1 && mate[outer] != outer+n) {
+                if(!f) {
+                    matching[i].first = mate[outer]/(2*n);
+                    f = true;
+                } else {
+                    matching[i].second = mate[outer]/(2*n);
+                }
+            }
+        }
+    }
     return matching_weight_sum(g_prime, &mate[0])-n*(n-1)*MAX_WEIGHT;
 }
