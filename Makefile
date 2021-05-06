@@ -16,4 +16,4 @@ benchmark:
 	@printf "greedy         : "; time -f "  time: %es" out/greedy < $(test);
 	@printf "best-neighbor  : "; time -f "  time: %es" out/best-neighbor < $(test);
 	@printf "two-interchange: "; time -f "  time: %es" out/two-interchange < $(test);
-	@printf "matching       : "; time -f "  time: %es" out/matching_test < $(test);
+	@printf "matching       : "; time -f "  time: %es" out/matching < $(test);

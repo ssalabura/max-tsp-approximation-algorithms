@@ -4,7 +4,7 @@
 // inner vertices: 2ni+n -- 2n(i+1)-1
 // core vertices: 2ni+i, 2ni+n+i
 
-int maximum_weighted_2_matching(const Graph &g, vector< pair<int,int> > &matching) {
+int maximum_weighted_2_matching(const Graph& g, vector< pair<int,int> >& matching) {
     int n = num_vertices(g);
     int MAX_WEIGHT = 1001;
     Graph g_prime(2*n*n);
@@ -44,18 +44,22 @@ int maximum_weighted_2_matching(const Graph &g, vector< pair<int,int> > &matchin
     vector<int> mate(2*n*n);
     maximum_weighted_matching(g_prime, &mate[0]);
     for(int i=0; i<n; i++) {
-        bool f = false;
+        int matched = 0;
         int core1 = 2*n*i+i;
         for(int outer=2*n*i; outer<2*n*i+n; outer++) {
-            if(outer != core1 && mate[outer] != outer+n) {
-                if(!f) {
+            if(outer != core1 && mate[outer] != outer+n && mate[outer] != -1) {
+                if(matched == 0) {
                     matching[i].first = mate[outer]/(2*n);
-                    f = true;
+                    matched++;
                 } else {
                     matching[i].second = mate[outer]/(2*n);
+                    matched++;
+                    break;
                 }
             }
         }
+        if(matched < 2) matching[i].second = -1;
+        if(matched < 1) matching[i].first = -1;
     }
     return matching_weight_sum(g_prime, &mate[0])-n*(n-1)*MAX_WEIGHT;
 }
