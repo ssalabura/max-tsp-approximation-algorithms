@@ -1,5 +1,7 @@
 #include "headers.hpp"
 
+const int MAX = 25;
+
 bool inS(int v, int s) {
     return (s & (1<<(v-1))) > 0;
 }
@@ -8,11 +10,11 @@ int without(int v, int s) {
     return s - (1<<(v-1));
 }
 
-int f[20][1<<19];
+int f[MAX][1<<(MAX-1)];
 
 int maxtsp(const Graph& g) {
     int n = num_vertices(g);
-    if(n > 20) return -1;
+    if(n > MAX) return -1;
 
     for(int v=1; v<n; v++) {
         f[v][0] = weight(0,v,g);
