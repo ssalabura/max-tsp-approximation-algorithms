@@ -1,4 +1,4 @@
-#include "headers.hpp"
+#include "util.hpp"
 
 const int MAX = 25;
 
@@ -13,8 +13,10 @@ int without(int v, int s) {
 int f[MAX][1<<(MAX-1)];
 
 int maxtsp(const Graph& g) {
+    // TODO: transform into select function
+
     int n = num_vertices(g);
-    if(n > MAX) return -1;
+    if(n > MAX) return;
 
     for(int v=1; v<n; v++) {
         f[v][0] = weight(0,v,g);

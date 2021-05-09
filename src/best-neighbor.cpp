@@ -1,6 +1,7 @@
-#include "headers.hpp"
+#include "util.hpp"
 
 int maxtsp(const Graph& g) {
+    // TODO: transform into finish function
     int n = num_vertices(g);
     bool *visited = new bool[n]();
     int output = 0;

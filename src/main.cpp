@@ -1,16 +1,10 @@
-#include <iostream>
-#include <boost/graph/adjacency_matrix.hpp>
-using namespace std;
-using namespace boost;
-
-typedef adjacency_matrix< undirectedS, no_property, property< edge_weight_t, int > > Graph;
-
-int maxtsp(const Graph& g);
+#include "util.hpp"
 
 int main() {
     int n;
     cin >> n;
     Graph g(n);
+    TwoMatching matching(n);
 
     int w;
     for(int i=0; i<n; i++) {
@@ -18,6 +12,12 @@ int main() {
             cin >> w;
             add_edge(i,j,w,g);
         }
+        matching[i].first = -1;
+        matching[i].second = -1;
     }
-    cout << maxtsp(g);
+
+    select(g,matching);
+    finish(g,matching);
+    optimize(g,matching);
+    cout << matching_weight(g,matching);
 }

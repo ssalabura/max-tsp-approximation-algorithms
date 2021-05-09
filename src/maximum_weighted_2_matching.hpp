@@ -1,10 +1,10 @@
-#include "headers.hpp"
+#include "util.hpp"
 
 // outer vertices: 2ni   -- 2ni+n-1
 // inner vertices: 2ni+n -- 2n(i+1)-1
 // core vertices: 2ni+i, 2ni+n+i
 
-int maximum_weighted_2_matching(const Graph& g, vector< pair<int,int> >& matching) {
+int maximum_weighted_2_matching(const Graph& g, TwoMatching& matching) {
     int n = num_vertices(g);
     int MAX_WEIGHT = 1500;
     Graph g_prime(2*n*n);
