@@ -51,7 +51,7 @@ void finish(const Graph& g, TwoMatching& matching) {
     int counter = 0;
     for(int i=0; i<n; i++) {
         for(int j=i+1; j<n; j++) {
-            e[counter++] = {i,j,weight(i,j,g)};
+            e[counter++] = {i, j, weight(i,j,g)};
         }
     }
     std::sort(e, e+counter, by_weight);

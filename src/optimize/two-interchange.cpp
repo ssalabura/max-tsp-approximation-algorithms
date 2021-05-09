@@ -36,12 +36,10 @@ void optimize(const Graph& g, TwoMatching& matching) {
     }
 
     // translate back to matching
-    matching[0].first = tour[1];
-    matching[0].second = tour[n-1];
+    matching[0] = {tour[1], tour[n-1]};
     for(int i=1; i<n; i++) {
         int current = tour[i];
-        matching[current].first = tour[i-1];
-        matching[current].second = tour[i+1];
+        matching[current] = {tour[i-1], tour[i+1]};
     }
 
     delete tour;

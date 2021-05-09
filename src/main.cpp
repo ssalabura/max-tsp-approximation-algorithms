@@ -12,8 +12,7 @@ int main() {
             cin >> w;
             add_edge(i,j,w,g);
         }
-        matching[i].first = -1;
-        matching[i].second = -1;
+        matching[i] = {-1,-1};
     }
 
     select(g,matching);
