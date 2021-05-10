@@ -21,7 +21,7 @@ void optimize(const Graph& g, TwoMatching& matching) {
     }
     tour[n] = 0;
 
-    // two-interchange optimization
+    // main loop
     while(true) {
         bool flag = false;
         for(int i=1; i<n; i++) {
