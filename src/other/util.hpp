@@ -1,7 +1,7 @@
-#include <iostream>
-#include <algorithm>
+#ifndef UTIL
+#define UTIL
+
 #include <boost/graph/adjacency_matrix.hpp>
-#include <boost/graph/maximum_weighted_matching.hpp>
 using namespace std;
 using namespace boost;
 
@@ -33,3 +33,5 @@ void matching_add(int u, int v, TwoMatching& matching);
 void matching_remove(int u, int v, TwoMatching& matching);
 bool in_matching(int u, int v, TwoMatching& matching);
 int matching_weight(const Graph& g, TwoMatching& matching);
+
+#endif

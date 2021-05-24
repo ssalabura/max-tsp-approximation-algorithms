@@ -1,4 +1,5 @@
-#include "../maximum_weighted_2_matching.hpp"
+#include "util.hpp"
+#include "maximum_weighted_2_matching.hpp"
 
 bool *visited;
 

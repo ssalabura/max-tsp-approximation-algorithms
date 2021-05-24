@@ -1,4 +1,6 @@
 #include "util.hpp"
+#include "maximum_weighted_2_matching.hpp"
+#include <boost/graph/maximum_weighted_matching.hpp>
 
 // outer vertices: 2ni   -- 2ni+n-1
 // inner vertices: 2ni+n -- 2n(i+1)-1

@@ -1,4 +1,7 @@
-#include "../maximum_weighted_2_matching.hpp"
+#include "util.hpp"
+#include "maximum_weighted_2_matching.hpp"
+#include <boost/graph/maximum_weighted_matching.hpp>
+#include <iostream>
 
 bool *visited;
 
@@ -44,7 +47,7 @@ void select(const Graph& g, TwoMatching& matching) {
             } while(v != i);
             
             if(edge_to_transfer.first == -1 && edge_to_transfer.second == -1) {
-                cerr << "no edge to transfer" << endl;
+                cerr << "no edge to transfer" << endl; // for testing TODO: remove this
             } else {
                 matching_remove(edge_to_transfer.first, edge_to_transfer.second, C);
                 matching_add(edge_to_transfer.first, edge_to_transfer.second, W);

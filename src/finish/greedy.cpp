@@ -1,4 +1,4 @@
-#include "../util.hpp"
+#include "util.hpp"
 
 struct my_edge {
     int u, v, c;

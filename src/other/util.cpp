@@ -1,4 +1,5 @@
 #include "util.hpp"
+#include <iostream>
 
 FindUnion::FindUnion(int n) : n(n) {
     parent = new int[n];
