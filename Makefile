@@ -65,31 +65,31 @@ out/alg/matc_gree_none: out/main.o out/other/util.o out/other/maximum_weighted_2
 	@echo "--- $@"
 	@g++ out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/matching.o out/finish/greedy.o out/optimize/none.o -o out/alg/matc_gree_none
 
-out/alg/matc_gree_2int: out/main.o out/other/util.o out/select/matching.o out/finish/greedy.o out/optimize/two-interchange.o
+out/alg/matc_gree_2int: out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/matching.o out/finish/greedy.o out/optimize/two-interchange.o
 	@echo "--- $@"
 	@g++ out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/matching.o out/finish/greedy.o out/optimize/two-interchange.o -o out/alg/matc_gree_2int
 
-out/alg/matc_neig_none: out/main.o out/other/util.o out/select/matching.o out/finish/best-neighbor.o out/optimize/none.o
+out/alg/matc_neig_none: out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/matching.o out/finish/best-neighbor.o out/optimize/none.o
 	@echo "--- $@"
 	@g++ out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/matching.o out/finish/best-neighbor.o out/optimize/none.o -o out/alg/matc_neig_none
 
-out/alg/matc_neig_2int: out/main.o out/other/util.o out/select/matching.o out/finish/best-neighbor.o out/optimize/two-interchange.o
+out/alg/matc_neig_2int: out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/matching.o out/finish/best-neighbor.o out/optimize/two-interchange.o
 	@echo "--- $@"
 	@g++ out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/matching.o out/finish/best-neighbor.o out/optimize/two-interchange.o -o out/alg/matc_neig_2int
 
-out/alg/serd_gree_none: out/main.o out/other/util.o out/select/serdyukov.o out/finish/greedy.o out/optimize/none.o
+out/alg/serd_gree_none: out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/serdyukov.o out/finish/greedy.o out/optimize/none.o
 	@echo "--- $@"
 	@g++ out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/serdyukov.o out/finish/greedy.o out/optimize/none.o -o out/alg/serd_gree_none
 
-out/alg/serd_gree_2int: out/main.o out/other/util.o out/select/serdyukov.o out/finish/greedy.o out/optimize/two-interchange.o
+out/alg/serd_gree_2int: out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/serdyukov.o out/finish/greedy.o out/optimize/two-interchange.o
 	@echo "--- $@"
 	@g++ out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/serdyukov.o out/finish/greedy.o out/optimize/two-interchange.o -o out/alg/serd_gree_2int
 
-out/alg/serd_neig_none: out/main.o out/other/util.o out/select/serdyukov.o out/finish/best-neighbor.o out/optimize/none.o
+out/alg/serd_neig_none: out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/serdyukov.o out/finish/best-neighbor.o out/optimize/none.o
 	@echo "--- $@"
 	@g++ out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/serdyukov.o out/finish/best-neighbor.o out/optimize/none.o -o out/alg/serd_neig_none
 
-out/alg/serd_neig_2int: out/main.o out/other/util.o out/select/serdyukov.o out/finish/best-neighbor.o out/optimize/two-interchange.o
+out/alg/serd_neig_2int: out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/serdyukov.o out/finish/best-neighbor.o out/optimize/two-interchange.o
 	@echo "--- $@"
 	@g++ out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/serdyukov.o out/finish/best-neighbor.o out/optimize/two-interchange.o -o out/alg/serd_neig_2int
 
