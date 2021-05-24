@@ -12,11 +12,11 @@ int main() {
             cin >> w;
             add_edge(i,j,w,g);
         }
-        matching[i] = {-1,-1};
     }
 
-    select(g,matching);
-    finish(g,matching);
-    optimize(g,matching);
-    cout << matching_weight(g,matching);
+    matching_empty(n, matching);
+    select(g, matching);
+    finish(g, matching);
+    optimize(g, matching);
+    cout << matching_weight(g, matching);
 }

@@ -1,10 +1,12 @@
 # Max-TSP approximation algorithms
 
+**Update Boost path in Makefile before compiling.**
+
 Compile:
 
-    make compile path=[path to boost]
+    make
 
-Generate tests:
+Generate test:
 
     python3 gen.py [n] [max_weight (optional)]
 
