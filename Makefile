@@ -96,19 +96,19 @@ out/alg/serd_neig_2int: out/main.o out/other/util.o out/other/maximum_weighted_2
 
 benchmark:
 	@echo -- $(test);
-	@printf "held-karp |               |                 : "; time -f "  time: %es" out/alg/held-karp < $(test);
-	@printf "          | greedy        |                 : "; time -f "  time: %es" out/alg/none_gree_none < $(test);
-	@printf "          | greedy        | two-interchange : "; time -f "  time: %es" out/alg/none_gree_2int < $(test);
-	@printf "          | best-neighbor |                 : "; time -f "  time: %es" out/alg/none_neig_none < $(test);
-	@printf "          | best-neighbor | two-interchange : "; time -f "  time: %es" out/alg/none_neig_2int < $(test);
-	@printf "matching  | greedy        |                 : "; time -f "  time: %es" out/alg/matc_gree_none < $(test);
-	@printf "matching  | greedy        | two-interchange : "; time -f "  time: %es" out/alg/matc_gree_2int < $(test);
-	@printf "matching  | best-neighbor |                 : "; time -f "  time: %es" out/alg/matc_neig_none < $(test);
-	@printf "matching  | best-neighbor | two-interchange : "; time -f "  time: %es" out/alg/matc_neig_2int < $(test);
-	@printf "serdyukov | greedy        |                 : "; time -f "  time: %es" out/alg/serd_gree_none < $(test);
-	@printf "serdyukov | greedy        | two-interchange : "; time -f "  time: %es" out/alg/serd_gree_2int < $(test);
-	@printf "serdyukov | best-neighbor |                 : "; time -f "  time: %es" out/alg/serd_neig_none < $(test);
-	@printf "serdyukov | best-neighbor | two-interchange : "; time -f "  time: %es" out/alg/serd_neig_2int < $(test);
+	@printf "held-karp |               |                 : "; time -f "  time: %es" out/alg/held-karp $(test);
+	@printf "          | greedy        |                 : "; time -f "  time: %es" out/alg/none_gree_none $(test);
+	@printf "          | greedy        | two-interchange : "; time -f "  time: %es" out/alg/none_gree_2int $(test);
+	@printf "          | best-neighbor |                 : "; time -f "  time: %es" out/alg/none_neig_none $(test);
+	@printf "          | best-neighbor | two-interchange : "; time -f "  time: %es" out/alg/none_neig_2int $(test);
+	@printf "matching  | greedy        |                 : "; time -f "  time: %es" out/alg/matc_gree_none $(test);
+	@printf "matching  | greedy        | two-interchange : "; time -f "  time: %es" out/alg/matc_gree_2int $(test);
+	@printf "matching  | best-neighbor |                 : "; time -f "  time: %es" out/alg/matc_neig_none $(test);
+	@printf "matching  | best-neighbor | two-interchange : "; time -f "  time: %es" out/alg/matc_neig_2int $(test);
+	@printf "serdyukov | greedy        |                 : "; time -f "  time: %es" out/alg/serd_gree_none $(test);
+	@printf "serdyukov | greedy        | two-interchange : "; time -f "  time: %es" out/alg/serd_gree_2int $(test);
+	@printf "serdyukov | best-neighbor |                 : "; time -f "  time: %es" out/alg/serd_neig_none $(test);
+	@printf "serdyukov | best-neighbor | two-interchange : "; time -f "  time: %es" out/alg/serd_neig_2int $(test);
 
 clean:
 	@rm -rf out/
