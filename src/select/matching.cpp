@@ -1,13 +1,11 @@
 #include "util.hpp"
 #include "maximum_weighted_2_matching.hpp"
 
-bool *visited;
-
 void select(const Graph& g, TwoMatching& matching) {
     int n = num_vertices(g);
     int weight_sum = maximum_weighted_2_matching(g, matching);
 
-    visited = new bool[n]();
+    bool *visited = new bool[n]();
 
     for(int i=0; i<n; i++) {
         if(!visited[i] && matching[i].second != -1) { // not visited cycle

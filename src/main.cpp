@@ -3,6 +3,7 @@
 #include <fstream>
 #include <dirent.h>
 #include <sys/stat.h>
+#include <thread>
 
 Graph read_test(char *path) {
     ifstream file;
@@ -20,6 +21,7 @@ Graph read_test(char *path) {
         }
     }
 
+    file.close();
     return g;
 }
 
@@ -33,6 +35,8 @@ void compute(const Graph& g, int *result) {
     optimize(g, matching);
     *result = matching_weight(g, matching);
 }
+
+const bool PARALLEL = true;
 
 int main(int argc, char *argv[]) {
     if(argc != 2) {
@@ -54,20 +58,28 @@ int main(int argc, char *argv[]) {
             closedir(dir);
 
             int *result = new int[count];
+            thread *threads = new thread[count];
             int counter = 0;
             dir = opendir(".");
             while(de = readdir(dir)) {
                 stat(de->d_name, &file_stat);
                 if(file_stat.st_mode & S_IFREG) {
                     Graph g = read_test(de->d_name);
-                    compute(g, &result[counter++]);
+                    if(PARALLEL) {
+                        threads[counter] = thread(compute, g, &result[counter]);
+                    } else {
+                        compute(g, &result[counter]);
+                    }
+                    counter++;
                 }
             }
             closedir(dir);
 
             int sum = 0;
             for(int i=0; i<count; i++) {
-                // cout << i << ": " << result[i] << endl;
+                if(PARALLEL) {
+                    threads[i].join();
+                }
                 sum += result[i];
             }
 

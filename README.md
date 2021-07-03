@@ -12,4 +12,4 @@ Generate test:
 
 Benchmark:
 
-    make benchmark test=[test file]
+    make benchmark path=[path to test directory/file]

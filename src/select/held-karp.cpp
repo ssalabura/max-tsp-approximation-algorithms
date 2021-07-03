@@ -10,12 +10,12 @@ int without(int v, int s) {
     return s - (1<<(v-1));
 }
 
-int f[MAX][1<<(MAX-1)];
-int last[MAX][1<<(MAX-1)];
-
 void select(const Graph& g, TwoMatching& matching) {
     int n = num_vertices(g);
     if(n > MAX) return;
+
+    auto f = new int[MAX][1<<(MAX-1)];
+    auto last = new int[MAX][1<<(MAX-1)];
 
     for(int v=1; v<n; v++) {
         f[v][0] = weight(0,v,g);
@@ -59,4 +59,6 @@ void select(const Graph& g, TwoMatching& matching) {
         best_last = last[best_last][s];
     }
     matching_add(prev, best_last, matching);
+
+    delete f, last;
 }

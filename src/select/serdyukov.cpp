@@ -3,12 +3,10 @@
 #include <boost/graph/maximum_weighted_matching.hpp>
 #include <iostream>
 
-bool *visited;
-
 void select(const Graph& g, TwoMatching& matching) {
     //initialization
     int n = num_vertices(g);
-    visited = new bool[n]();
+    bool *visited = new bool[n]();
     FindUnion fu(n);
     TwoMatching C(n), W(n);
     matching_empty(n, C);
