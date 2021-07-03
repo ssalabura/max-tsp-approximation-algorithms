@@ -1,12 +1,10 @@
 #include "util.hpp"
 
-int *tour;
-
 void optimize(const Graph& g, TwoMatching& matching) {
     int n = num_vertices(g);
 
     // translate matching to tour
-    tour = new int[n+1];
+    int *tour = new int[n+1];
     tour[0] = 0;
     tour[1] = matching[0].first;
     int pprev = 0, prev = tour[1];
