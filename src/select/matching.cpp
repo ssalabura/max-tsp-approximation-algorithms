@@ -3,12 +3,12 @@
 
 void select(const Graph& g, TwoMatching& matching) {
     int n = num_vertices(g);
-    int weight_sum = maximum_weighted_2_matching(g, matching);
+    maximum_weighted_2_matching(g, matching);
 
     bool *visited = new bool[n]();
 
     for(int i=0; i<n; i++) {
-        if(!visited[i] && matching[i].second != -1) { // not visited cycle
+        if(!visited[i]) { // not visited cycle
             int prev = -1;
             int v = i;
             pair<int, int> smallest_edge;
@@ -32,7 +32,7 @@ void select(const Graph& g, TwoMatching& matching) {
                 }
             } while(v != i);
 
-            matching_remove(smallest_edge.first, smallest_edge.second, matching);
+            matching_remove(smallest_edge, matching);
         }
     }
 

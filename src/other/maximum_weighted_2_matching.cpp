@@ -6,7 +6,7 @@
 // inner vertices: 2ni+n -- 2n(i+1)-1
 // core vertices: 2ni+i, 2ni+n+i
 
-int maximum_weighted_2_matching(const Graph& g, TwoMatching& matching) {
+void maximum_weighted_2_matching(const Graph& g, TwoMatching& matching) {
     int n = num_vertices(g);
     int MAX_WEIGHT = 1500;
     Graph g_prime(2*n*n);
@@ -17,8 +17,8 @@ int maximum_weighted_2_matching(const Graph& g, TwoMatching& matching) {
         // core edges
         for(int inner=2*n*i+n; inner<2*n*(i+1); inner++) {
             if(inner != core2) {
-                add_edge(inner,core1,MAX_WEIGHT,g_prime);
-                add_edge(inner,core2,MAX_WEIGHT,g_prime);
+                add_edge(inner,core1,2*MAX_WEIGHT,g_prime);
+                add_edge(inner,core2,2*MAX_WEIGHT,g_prime);
             }
         }
         // inner edges
@@ -26,7 +26,7 @@ int maximum_weighted_2_matching(const Graph& g, TwoMatching& matching) {
             if(j != i) {
                 int outer = 2*n*i+j;
                 int inner = 2*n*i+n+j;
-                add_edge(outer,inner,MAX_WEIGHT,g_prime);
+                add_edge(outer,inner,2*MAX_WEIGHT,g_prime);
             }
         }
         // outer edges
@@ -35,7 +35,7 @@ int maximum_weighted_2_matching(const Graph& g, TwoMatching& matching) {
                 int my_outer = 2*n*i+j;
                 int other_outer = 2*n*j+i;
                 int w = weight(i,j,g);
-                add_edge(my_outer,other_outer,w,g_prime);
+                add_edge(my_outer,other_outer,w+MAX_WEIGHT,g_prime);
             }
         }
     }
@@ -57,5 +57,4 @@ int maximum_weighted_2_matching(const Graph& g, TwoMatching& matching) {
             }
         }
     }
-    return matching_weight_sum(g_prime, &mate[0])-n*(n-1)*MAX_WEIGHT;
 }

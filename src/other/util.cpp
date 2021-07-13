@@ -91,6 +91,14 @@ void matching_remove(int u, int v, TwoMatching& matching) {
     }
 }
 
+void matching_add(pair<int,int> edge, TwoMatching& matching) {
+    matching_add(edge.first, edge.second, matching);
+}
+
+void matching_remove(pair<int,int> edge, TwoMatching& matching) {
+    matching_remove(edge.first, edge.second, matching);
+}
+
 bool in_matching(int u, int v, TwoMatching& matching) {
     return matching[u].first == v || matching[u].second == v;
 }

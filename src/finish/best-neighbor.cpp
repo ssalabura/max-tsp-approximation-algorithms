@@ -35,7 +35,7 @@ void finish(const Graph& g, TwoMatching& matching) {
             v = next_v;
         }
     }
-    matching_add(v,start,matching);
+    matching_add(v, start, matching);
     
     delete visited;
 }

@@ -31,6 +31,8 @@ int weight(int u, int v, const Graph& g);
 void matching_empty(int n, TwoMatching& matching);
 void matching_add(int u, int v, TwoMatching& matching);
 void matching_remove(int u, int v, TwoMatching& matching);
+void matching_add(pair<int,int> edge, TwoMatching& matching);
+void matching_remove(pair<int,int> edge, TwoMatching& matching);
 bool in_matching(int u, int v, TwoMatching& matching);
 int matching_weight(const Graph& g, TwoMatching& matching);
 

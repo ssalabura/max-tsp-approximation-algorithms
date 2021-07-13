@@ -4,7 +4,6 @@
 #include <iostream>
 
 void select(const Graph& g, TwoMatching& matching) {
-    //initialization
     int n = num_vertices(g);
     bool *visited = new bool[n]();
     FindUnion fu(n);
@@ -23,7 +22,7 @@ void select(const Graph& g, TwoMatching& matching) {
     }
 
     for(int i=0; i<n; i++) {
-        if(!visited[i] && C[i].second != -1) { // not visited cycle
+        if(!visited[i]) { // not visited cycle
             int prev = -1;
             int v = i;
             pair<int,int> edge_to_transfer = {-1,-1};
@@ -44,13 +43,10 @@ void select(const Graph& g, TwoMatching& matching) {
                 }
             } while(v != i);
             
-            if(edge_to_transfer.first == -1 && edge_to_transfer.second == -1) {
-                cerr << "no edge to transfer" << endl; // for testing TODO: remove this
-            } else {
-                matching_remove(edge_to_transfer.first, edge_to_transfer.second, C);
-                matching_add(edge_to_transfer.first, edge_to_transfer.second, W);
-                fu.Union(edge_to_transfer.first, edge_to_transfer.second);
-            }
+            
+            matching_remove(edge_to_transfer, C);
+            matching_add(edge_to_transfer, W);
+            fu.Union(edge_to_transfer.first, edge_to_transfer.second);
         }
     }
 
