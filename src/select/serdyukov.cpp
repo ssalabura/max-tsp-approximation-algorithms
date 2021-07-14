@@ -1,7 +1,6 @@
 #include "util.hpp"
 #include "maximum_weighted_2_matching.hpp"
 #include <boost/graph/maximum_weighted_matching.hpp>
-#include <iostream>
 
 void select(const Graph& g, TwoMatching& matching) {
     int n = num_vertices(g);
