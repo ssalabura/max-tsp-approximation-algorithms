@@ -1,5 +1,5 @@
 import sys
-from random import random, randint
+from random import random
 from math import sqrt
 
 tab = []

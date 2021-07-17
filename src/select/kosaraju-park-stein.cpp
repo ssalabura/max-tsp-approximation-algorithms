@@ -13,6 +13,7 @@ void select(const Graph& g, TwoMatching& matching) {
     int *f = new int[n]; // edge of a cycle whose head is incident to x (edge is f[x] -> x)
     int *w = new int[n+n/3]; // w[x] - weight of a cycle where x=rep_id (bigger than needed for readability)
 
+    // preparing data
     int rep_id_counter = n;
     for(int i=0; i<n; i++) {
         if(!visited[i]) {
@@ -47,6 +48,7 @@ void select(const Graph& g, TwoMatching& matching) {
     Graph g_prime(rep_id_counter);
     int *in_rep = new int[rep_id_counter*rep_id_counter]; // in_rep[x*rep_id_counter+y] - internal vertex of a representative x in edge x<->y (bigger than needed for readability)
 
+    // edges in G'
     for(int i=0; i<n; i++) {
         for(int j=i+1; j<n; j++) {
             if(rep_id[i] != rep_id[j]) {
@@ -63,19 +65,18 @@ void select(const Graph& g, TwoMatching& matching) {
                         in_rep[rep_id[j]*rep_id_counter+rep_id[i]] = j;
                     }
                 }
-                // cout << "add_edge " << rep_id[i] << " " << rep_id[j] << " " << edge_weight << endl;
             }
         }
     }
     vector<int> M(rep_id_counter);
     maximum_weighted_matching(g_prime, &M[0]);
 
+    // translating edges in M to our matching
     int *V = new int[n*n](); // (almost) as in paper, edge x<->y is included max{V[x*n+y],0}/2 times (so either 1 or 0)
     for(int i=0; i<rep_id_counter; i++) {
         if(M[i] != -1) {
             int x = (i >= n ? in_rep[i*rep_id_counter+M[i]] : i);
             int y = (M[i] >= n ? in_rep[M[i]*rep_id_counter+i] : M[i]);
-            // cout << i << " <--> " << M[i] << ", (" << x << " <--> " << y << ")" << endl;
             V[x*n+y]++; V[y*n+x]++; // adding e
             V[f[x]*n+x]--; V[x*n+f[x]]--; // removing f_x
             V[f[y]*n+y]--; V[y*n+f[y]]--; // removing f_y
@@ -111,16 +112,36 @@ void select(const Graph& g, TwoMatching& matching) {
     }
     for(int i=0; i<n; i++) {
         for(int j=i+1; j<n; j++) {
-            if(V[i*n+j] != 0 && V[i*n+j] != 2) cerr << "error (?): V[" << i << "," << j << "] = " << V[i*n+j] << endl;
-            else if(V[i*n+j] == 2) {
+            if(V[i*n+j] == 2) {
                 matching_add(i,j,matching);
             }
         }
     }
 
-    // TODO: add "almost cycle" to output
+    // adding "almost cycle" to output
     for(int i=n; i<rep_id_counter; i++) {
-        if(M[i] == -1) cout << i << " not matched!" << endl;
+        if(M[i] == -1) {
+            int internal = 0;
+            while(rep_id[internal] != i) internal++;
+            int v = internal, prev = -1;
+            pair<int, int> smallest_edge;
+            int smallest_weight = INT_MAX;
+            do {
+                if(C[v].first != prev) {
+                    prev = v;
+                    v = C[v].first;
+                } else {
+                    prev = v;
+                    v = C[v].second;
+                }
+                if(weight(prev, v, g) < smallest_weight) {
+                    smallest_edge = {prev, v};
+                    smallest_weight = weight(prev, v, g);
+                }
+                matching_add(prev, v, matching);
+            } while(v != internal);
+            matching_remove(smallest_edge, matching);
+        }
     }
 
     delete visited, rep_id, f, w, in_rep;

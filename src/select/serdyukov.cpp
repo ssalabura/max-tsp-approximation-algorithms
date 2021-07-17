@@ -28,20 +28,16 @@ void select(const Graph& g, TwoMatching& matching) {
             do {
                 visited[v] = true;
                 if(C[v].first != prev) {
-                    if(!in_matching(v, C[v].first, W) && fu.canUnion(v, C[v].first)) {
-                        edge_to_transfer = {v, C[v].first};
-                    }
                     prev = v;
                     v = C[v].first;
                 } else {
-                    if(!in_matching(v, C[v].second, W) && fu.canUnion(v, C[v].second)) {
-                        edge_to_transfer = {v, C[v].second};
-                    }
                     prev = v;
                     v = C[v].second;
                 }
+                if(!in_matching(prev, v, W) && fu.canUnion(prev, v)) {
+                    edge_to_transfer = {prev, v};
+                }
             } while(v != i);
-            
             
             matching_remove(edge_to_transfer, C);
             matching_add(edge_to_transfer, W);

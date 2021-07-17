@@ -16,19 +16,15 @@ void select(const Graph& g, TwoMatching& matching) {
             do {
                 visited[v] = true;
                 if(matching[v].first != prev) {
-                    if(weight(v, matching[v].first, g) < smallest_weight) {
-                        smallest_edge = {v, matching[v].first};
-                        smallest_weight = weight(v, matching[v].first, g);
-                    }
                     prev = v;
                     v = matching[v].first;
                 } else {
-                    if(weight(v, matching[v].second, g) < smallest_weight) {
-                        smallest_edge = {v, matching[v].second};
-                        smallest_weight = weight(v, matching[v].second, g);
-                    }
                     prev = v;
                     v = matching[v].second;
+                }
+                if(weight(prev, v, g) < smallest_weight) {
+                    smallest_edge = {prev, v};
+                    smallest_weight = weight(prev, v, g);
                 }
             } while(v != i);
 
