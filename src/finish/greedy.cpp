@@ -35,9 +35,9 @@ void finish(const Graph& g, TwoMatching& matching) {
 
     // greedy selection of remaining edges
     for(int i=0; i<counter; i++) {
-        if(!in_matching(e[i].u, e[i].v, matching) && fu.canUnion(e[i].u, e[i].v)) {
+        if(!matching.contains(e[i].u, e[i].v) && fu.canUnion(e[i].u, e[i].v)) {
                 fu.Union(e[i].u, e[i].v);
-                matching_add(e[i].u, e[i].v, matching);
+                matching.add(e[i].u, e[i].v);
         }
     }
 

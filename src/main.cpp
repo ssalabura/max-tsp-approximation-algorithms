@@ -29,11 +29,10 @@ void compute(const Graph& g, int *result) {
     int n = num_vertices(g);
     TwoMatching matching(n);
 
-    matching_empty(n, matching);
     select(g, matching);
     finish(g, matching);
     optimize(g, matching);
-    *result = matching_weight(g, matching);
+    *result = matching.weight_sum(g);
 }
 
 const bool PARALLEL = true;

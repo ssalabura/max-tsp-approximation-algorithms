@@ -28,7 +28,7 @@ void select(const Graph& g, TwoMatching& matching) {
                 }
             } while(v != i);
 
-            matching_remove(smallest_edge, matching);
+            matching.remove(smallest_edge);
         }
     }
 

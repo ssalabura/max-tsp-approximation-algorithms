@@ -1,9 +1,6 @@
 import sys
 from random import random
 
-tab = []
-coords = []
-
 n = int(sys.argv[1])
 max = 1000
 try:

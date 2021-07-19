@@ -113,7 +113,7 @@ void select(const Graph& g, TwoMatching& matching) {
     for(int i=0; i<n; i++) {
         for(int j=i+1; j<n; j++) {
             if(V[i*n+j] == 2) {
-                matching_add(i,j,matching);
+                matching.add(i,j);
             }
         }
     }
@@ -138,9 +138,9 @@ void select(const Graph& g, TwoMatching& matching) {
                     smallest_edge = {prev, v};
                     smallest_weight = weight(prev, v, g);
                 }
-                matching_add(prev, v, matching);
+                matching.add(prev, v);
             } while(v != internal);
-            matching_remove(smallest_edge, matching);
+            matching.remove(smallest_edge);
         }
     }
 

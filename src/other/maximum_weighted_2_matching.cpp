@@ -1,6 +1,7 @@
 #include "util.hpp"
 #include "maximum_weighted_2_matching.hpp"
 #include <boost/graph/maximum_weighted_matching.hpp>
+#include <iostream>
 
 // outer vertices: 2ni   -- 2ni+n-1
 // inner vertices: 2ni+n -- 2n(i+1)-1
@@ -42,18 +43,11 @@ void maximum_weighted_2_matching(const Graph& g, TwoMatching& matching) {
     vector<int> mate(2*n*n);
     maximum_weighted_matching(g_prime, &mate[0]);
     for(int i=0; i<n; i++) {
-        matching[i] = {-1,-1};
-        bool f = false;
         int core1 = 2*n*i+i;
         for(int outer=2*n*i; outer<2*n*i+n; outer++) {
             if(outer != core1 && mate[outer] != outer+n && mate[outer] != -1) {
-                if(!f) {
-                    matching[i].first = mate[outer]/(2*n);
-                    f = true;
-                } else {
-                    matching[i].second = mate[outer]/(2*n);
-                    break;
-                }
+                // cout << "adding " << i << ", " << mate[outer]/(2*n) << endl;
+                matching.add(i, mate[outer]/(2*n));
             }
         }
     }

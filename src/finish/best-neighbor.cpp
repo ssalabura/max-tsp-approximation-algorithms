@@ -31,11 +31,11 @@ void finish(const Graph& g, TwoMatching& matching) {
                 }
             }
             if(next_v == -1) break;
-            matching_add(v, next_v, matching);
+            matching.add(v, next_v);
             v = next_v;
         }
     }
-    matching_add(v, start, matching);
+    matching.add(v, start);
     
     delete visited;
 }
