@@ -5,7 +5,7 @@
 
 void select(const Graph& g, TwoMatching& matching) {
     int n = num_vertices(g);
-    TwoMatching C(n);
+    TwoMatching C(g);
     maximum_weighted_2_matching(g, C);
 
     bool *visited = new bool[n]();

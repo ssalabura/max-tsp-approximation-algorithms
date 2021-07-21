@@ -27,12 +27,12 @@ Graph read_test(char *path) {
 
 void compute(const Graph& g, int *result) {
     int n = num_vertices(g);
-    TwoMatching matching(n);
+    TwoMatching matching(g);
 
     select(g, matching);
     finish(g, matching);
     optimize(g, matching);
-    *result = matching.weight_sum(g);
+    *result = matching.weight_sum();
 }
 
 const bool PARALLEL = true;

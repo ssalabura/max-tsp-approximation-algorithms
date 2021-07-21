@@ -5,7 +5,8 @@ int weight(int u, int v, const Graph& g) {
     return get(edge_weight, g, edge(u,v,g).first);
 }
 
-TwoMatching::TwoMatching(int n) : n(n) { 
+TwoMatching::TwoMatching(const Graph& g) : g(g) { 
+    n = num_vertices(g);
     mate = new pair<int, int>[n];
     clear();
 }
@@ -70,7 +71,7 @@ bool TwoMatching::contains(int u, int v) {
     return mate[u].first == v || mate[u].second == v;
 }
 
-int TwoMatching::weight_sum(const Graph& g) {
+int TwoMatching::weight_sum() {
     int sum = 0;
     for(int i=0; i<n; i++) {
         if(mate[i].first != -1) {
@@ -133,4 +134,13 @@ void FindUnion::Union(int u, int v) {
 
 bool FindUnion::canUnion(int u, int v) {
     return (d[u] < 2 && d[v] < 2 && !(Find(u) == Find(v) && edges_count < n-1));
+}
+
+FindUnion& FindUnion::operator=(const FindUnion& other) {
+    for(int i=0; i<n; i++) {
+        parent[i] = other.parent[i];
+        rank[i] = other.rank[i];
+        d[i] = other.d[i];
+        edges_count = other.edges_count;
+    }
 }

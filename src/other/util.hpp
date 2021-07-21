@@ -11,9 +11,10 @@ int weight(int u, int v, const Graph& g);
 
 class TwoMatching {
     int n;
+    const Graph& g;
     pair<int,int> *mate;
 public:
-    TwoMatching(int n);
+    TwoMatching(const Graph& g);
     ~TwoMatching();
     void clear();
     void add(int u, int v);
@@ -21,7 +22,7 @@ public:
     void remove(int u, int v);
     void remove(pair<int,int> edge);
     bool contains(int u, int v);
-    int weight_sum(const Graph& g);
+    int weight_sum();
     pair<int,int> operator[](int i);
     TwoMatching& operator=(const TwoMatching& other);
 };
@@ -38,6 +39,7 @@ public:
     int Find(int v);
     void Union(int u, int v);
     bool canUnion(int u, int v);
+    FindUnion& operator=(const FindUnion& other);
 };
 
 void select(const Graph& g, TwoMatching& matching);

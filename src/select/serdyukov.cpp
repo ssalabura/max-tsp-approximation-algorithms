@@ -6,7 +6,7 @@ void select(const Graph& g, TwoMatching& matching) {
     int n = num_vertices(g);
     bool *visited = new bool[n]();
     FindUnion fu(n);
-    TwoMatching C(n), W(n);
+    TwoMatching C(g), W(g);
 
     maximum_weighted_2_matching(g, C);
     vector<int> W_1(n);
@@ -43,7 +43,7 @@ void select(const Graph& g, TwoMatching& matching) {
         }
     }
 
-    if(C.weight_sum(g) >= W.weight_sum(g)) {
+    if(C.weight_sum() >= W.weight_sum()) {
         matching = C;
     } else {
         matching = W;
