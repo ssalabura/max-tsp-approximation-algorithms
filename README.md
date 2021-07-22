@@ -8,7 +8,7 @@ Compile:
 
 Generate test:
 
-    python3 gen.py [n] [max_weight (optional)]
+    python3 gen_[graph type].py [n] [max weight (optional)]
 
 Benchmark:
 

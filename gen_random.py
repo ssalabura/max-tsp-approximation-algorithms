@@ -1,5 +1,5 @@
 import sys
-from random import random
+from numpy import random
 
 n = int(sys.argv[1])
 max = 1000
@@ -11,5 +11,5 @@ except:
 print(n)
 for i in range(n):
     for j in range(i+1,n):
-        print(int(random()*max), end=" ")
+        print(random.randint(max), end=" ")
     print()

@@ -8,10 +8,10 @@ all: dirs \
 	out/alg/held-karp \
 	out/alg/none_gree_none out/alg/none_gree_2int \
 	out/alg/none_neig_none out/alg/none_neig_2int \
-	out/alg/matc_gree_none out/alg/matc_gree_2int out/alg/matc_neig_none out/alg/matc_neig_2int \
-	out/alg/serd_gree_none out/alg/serd_gree_2int out/alg/serd_neig_none out/alg/serd_neig_2int \
-	out/alg/kps__gree_none out/alg/kps__gree_2int out/alg/kps__neig_none out/alg/kps__neig_2int \
-	out/alg/hr___gree_none out/alg/hr___gree_2int out/alg/hr___neig_none out/alg/hr___neig_2int
+	out/alg/matc_none_none out/alg/matc_gree_none out/alg/matc_gree_2int out/alg/matc_neig_none out/alg/matc_neig_2int \
+	out/alg/serd_none_none out/alg/serd_gree_none out/alg/serd_gree_2int out/alg/serd_neig_none out/alg/serd_neig_2int \
+	out/alg/kps__none_none out/alg/kps__gree_none out/alg/kps__gree_2int out/alg/kps__neig_none out/alg/kps__neig_2int \
+	out/alg/hr___none_none out/alg/hr___gree_none out/alg/hr___gree_2int out/alg/hr___neig_none out/alg/hr___neig_2int
 
 dirs:
 	@mkdir -p out/ out/other/ \
@@ -64,6 +64,10 @@ out/alg/none_neig_2int: out/main.o out/other/util.o out/select/none.o out/finish
 	@echo "--- $@"
 	@g++ $(LFLAGS) out/main.o out/other/util.o out/select/none.o out/finish/best-neighbor.o out/optimize/two-interchange.o -o out/alg/none_neig_2int
 
+out/alg/matc_none_none: out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/matching.o out/finish/none.o out/optimize/none.o
+	@echo "--- $@"
+	@g++ $(LFLAGS) out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/matching.o out/finish/none.o out/optimize/none.o -o out/alg/matc_none_none
+
 out/alg/matc_gree_none: out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/matching.o out/finish/greedy.o out/optimize/none.o
 	@echo "--- $@"
 	@g++ $(LFLAGS) out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/matching.o out/finish/greedy.o out/optimize/none.o -o out/alg/matc_gree_none
@@ -79,6 +83,10 @@ out/alg/matc_neig_none: out/main.o out/other/util.o out/other/maximum_weighted_2
 out/alg/matc_neig_2int: out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/matching.o out/finish/best-neighbor.o out/optimize/two-interchange.o
 	@echo "--- $@"
 	@g++ $(LFLAGS) out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/matching.o out/finish/best-neighbor.o out/optimize/two-interchange.o -o out/alg/matc_neig_2int
+
+out/alg/serd_none_none: out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/serdyukov.o out/finish/none.o out/optimize/none.o
+	@echo "--- $@"
+	@g++ $(LFLAGS) out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/serdyukov.o out/finish/none.o out/optimize/none.o -o out/alg/serd_none_none
 
 out/alg/serd_gree_none: out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/serdyukov.o out/finish/greedy.o out/optimize/none.o
 	@echo "--- $@"
@@ -96,6 +104,10 @@ out/alg/serd_neig_2int: out/main.o out/other/util.o out/other/maximum_weighted_2
 	@echo "--- $@"
 	@g++ $(LFLAGS) out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/serdyukov.o out/finish/best-neighbor.o out/optimize/two-interchange.o -o out/alg/serd_neig_2int
 
+out/alg/kps__none_none: out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/kosaraju-park-stein.o out/finish/none.o out/optimize/none.o
+	@echo "--- $@"
+	@g++ $(LFLAGS) out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/kosaraju-park-stein.o out/finish/none.o out/optimize/none.o -o out/alg/kps__none_none
+
 out/alg/kps__gree_none: out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/kosaraju-park-stein.o out/finish/greedy.o out/optimize/none.o
 	@echo "--- $@"
 	@g++ $(LFLAGS) out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/kosaraju-park-stein.o out/finish/greedy.o out/optimize/none.o -o out/alg/kps__gree_none
@@ -111,6 +123,10 @@ out/alg/kps__neig_none: out/main.o out/other/util.o out/other/maximum_weighted_2
 out/alg/kps__neig_2int: out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/kosaraju-park-stein.o out/finish/best-neighbor.o out/optimize/two-interchange.o
 	@echo "--- $@"
 	@g++ $(LFLAGS) out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/kosaraju-park-stein.o out/finish/best-neighbor.o out/optimize/two-interchange.o -o out/alg/kps__neig_2int
+
+out/alg/hr___none_none: out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/other/max_tsp_exact.o out/select/hassin-rubenstein.o out/finish/none.o out/optimize/none.o
+	@echo "--- $@"
+	@g++ $(LFLAGS) out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/other/max_tsp_exact.o out/select/hassin-rubenstein.o out/finish/none.o out/optimize/none.o -o out/alg/hr___none_none
 
 out/alg/hr___gree_none: out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/other/max_tsp_exact.o out/select/hassin-rubenstein.o out/finish/greedy.o out/optimize/none.o
 	@echo "--- $@"
@@ -136,18 +152,22 @@ benchmark:
 	@printf "          | greedy        | two-interchange : "; time -f "  time: %es" out/alg/none_gree_2int $(path);
 	@printf "          | best-neighbor |                 : "; time -f "  time: %es" out/alg/none_neig_none $(path);
 	@printf "          | best-neighbor | two-interchange : "; time -f "  time: %es" out/alg/none_neig_2int $(path);
+	@printf "matching  |               |                 : "; time -f "  time: %es" out/alg/matc_none_none $(path);
 	@printf "matching  | greedy        |                 : "; time -f "  time: %es" out/alg/matc_gree_none $(path);
 	@printf "matching  | greedy        | two-interchange : "; time -f "  time: %es" out/alg/matc_gree_2int $(path);
 	@printf "matching  | best-neighbor |                 : "; time -f "  time: %es" out/alg/matc_neig_none $(path);
 	@printf "matching  | best-neighbor | two-interchange : "; time -f "  time: %es" out/alg/matc_neig_2int $(path);
+	@printf "serdyukov |               |                 : "; time -f "  time: %es" out/alg/serd_none_none $(path);
 	@printf "serdyukov | greedy        |                 : "; time -f "  time: %es" out/alg/serd_gree_none $(path);
 	@printf "serdyukov | greedy        | two-interchange : "; time -f "  time: %es" out/alg/serd_gree_2int $(path);
 	@printf "serdyukov | best-neighbor |                 : "; time -f "  time: %es" out/alg/serd_neig_none $(path);
 	@printf "serdyukov | best-neighbor | two-interchange : "; time -f "  time: %es" out/alg/serd_neig_2int $(path);
+	@printf "kps       |               |                 : "; time -f "  time: %es" out/alg/kps__none_none $(path);
 	@printf "kps       | greedy        |                 : "; time -f "  time: %es" out/alg/kps__gree_none $(path);
 	@printf "kps       | greedy        | two-interchange : "; time -f "  time: %es" out/alg/kps__gree_2int $(path);
 	@printf "kps       | best-neighbor |                 : "; time -f "  time: %es" out/alg/kps__neig_none $(path);
 	@printf "kps       | best-neighbor | two-interchange : "; time -f "  time: %es" out/alg/kps__neig_2int $(path);
+	@printf "hr        |               |                 : "; time -f "  time: %es" out/alg/hr___none_none $(path);
 	@printf "hr        | greedy        |                 : "; time -f "  time: %es" out/alg/hr___gree_none $(path);
 	@printf "hr        | greedy        | two-interchange : "; time -f "  time: %es" out/alg/hr___gree_2int $(path);
 	@printf "hr        | best-neighbor |                 : "; time -f "  time: %es" out/alg/hr___neig_none $(path);
