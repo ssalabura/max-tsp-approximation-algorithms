@@ -19,7 +19,7 @@ void select(const Graph& g, TwoMatching& matching) {
     }
 
     for(int i=0; i<n; i++) {
-        if(!visited[i]) { // not visited cycle
+        if(!visited[i]) {
             int prev = -1;
             int v = i;
             pair<int,int> edge_to_transfer = {-1,-1};

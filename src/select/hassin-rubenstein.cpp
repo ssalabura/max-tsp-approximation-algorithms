@@ -15,7 +15,7 @@ void A1(const Graph& g, TwoMatching& C, TwoMatching& matching) {
     matching = C;
 
     for(int i=0; i<n; i++) {
-        if(!visited[i]) { // not visited cycle
+        if(!visited[i]) {
             int prev = -1;
             int v = i;
             vector<int> cycle;
@@ -40,10 +40,12 @@ void A1(const Graph& g, TwoMatching& C, TwoMatching& matching) {
             if(cycle.size() > epsilon) {
                 matching.remove(smallest_edge);
             } else {
+                // removing original cycle
                 for(int j=0; j<cycle.size()-1; j++) {
                     matching.remove(cycle[j], cycle[j+1]);
                 }
                 matching.remove(cycle[cycle.size()-1], cycle[0]);
+                // creating subgraph with vertices only from this cycle (plus additional one for reduction to max-TSP)
                 Graph c(cycle.size()+1);
                 TwoMatching c_matching(cycle.size()+1);
                 for(int j=0; j<cycle.size(); j++) {
@@ -53,6 +55,7 @@ void A1(const Graph& g, TwoMatching& C, TwoMatching& matching) {
                     add_edge(j, cycle.size(), 0, c);
                 }
                 max_tsp_exact(c, c_matching);
+                // adding hamiltonian path to our matching
                 for(int j=0; j<cycle.size(); j++) {
                     if(c_matching[j].first != -1 && c_matching[j].first != cycle.size()) {
                         matching.add(cycle[j], cycle[c_matching[j].first]);
@@ -70,12 +73,13 @@ void A1(const Graph& g, TwoMatching& C, TwoMatching& matching) {
 
 void A2(const Graph& g, TwoMatching& C, TwoMatching& matching1, TwoMatching& matching2) {
     int n = num_vertices(g);
+    // random engine based on time
     struct timeval time_now{};
     gettimeofday(&time_now, nullptr);
-    auto gen = bind(uniform_int_distribution<>(0,1), default_random_engine(time_now.tv_usec));
+    auto engine = default_random_engine();
     
+    // creating FindUnion to find edges connecting vertices from different cycles
     FindUnion C_fu(n);
-    // updating FindUnion with edges from C
     for(int i=0; i<n; i++) {
         if(C[i].first > i) {
             C_fu.Union(i, C[i].first);
@@ -85,6 +89,7 @@ void A2(const Graph& g, TwoMatching& C, TwoMatching& matching1, TwoMatching& mat
         }
     }
 
+    // creating M' and W
     Graph g_prime(n);
     for(int i=0; i<n; i++) {
         for(int j=i+1; j<n; j++) {
@@ -97,7 +102,8 @@ void A2(const Graph& g, TwoMatching& C, TwoMatching& matching1, TwoMatching& mat
     maximum_weighted_matching(g_prime, &M_prime[0]);
     maximum_weighted_matching(g, &W1[0]);
     
-    TwoMatching W(g);
+    TwoMatching W(g), P(g);
+    P = C;
     FindUnion W_fu(n);
     for(int i=0; i<n; i++) {
         if(W1[i] > i) {
@@ -106,9 +112,11 @@ void A2(const Graph& g, TwoMatching& C, TwoMatching& matching1, TwoMatching& mat
         }
     }
 
+    // for every cycle: constructing matchings M1 and M2 and randomly trasferring them to W
     bool *visited = new bool[n]();
+    auto rand_bool = bind(uniform_int_distribution<>(0,1), engine);
     for(int i=0; i<n; i++) {
-        if(!visited[i]) { // not visited cycle
+        if(!visited[i]) {
             int prev = -1;
             int v = i;
             vector<int> M1(n), M2(n);
@@ -160,11 +168,12 @@ void A2(const Graph& g, TwoMatching& C, TwoMatching& matching1, TwoMatching& mat
                 M2[v2] = v;
             }
 
-            if(gen()) {
+            if(rand_bool()) {
                 for(int j=0; j<n; j++) {
                     if(M1[j] > j) {
                         W.add(j, M1[j]);
                         W_fu.Union(j, M1[j]);
+                        P.remove(j, M1[j]);
                     }
                 }
             } else {
@@ -172,6 +181,7 @@ void A2(const Graph& g, TwoMatching& C, TwoMatching& matching1, TwoMatching& mat
                     if(M2[j] > j) {
                         W.add(j, M2[j]);
                         W_fu.Union(j, M2[j]);
+                        P.remove(j, M2[j]);
                     }
                 }
             }
@@ -179,6 +189,52 @@ void A2(const Graph& g, TwoMatching& C, TwoMatching& matching1, TwoMatching& mat
     }
     matching1 = W;
 
+    // changing M' to M as it's no longer needed
+    for(int i=0; i<n; i++) {
+        if(M_prime[i] != -1) {
+            if(P[i].second == -1 && P[M_prime[i]].second == -1) {
+                P.add(i, M_prime[i]);
+            } else if(!P.contains(i, M_prime[i])) {
+                M_prime[M_prime[i]] = -1;
+                M_prime[i] = -1;
+            }
+        } 
+    }
+
+    // for every cycle: removing random edge from M
+    for(int i=0; i<n; i++) {
+        visited[i] = false;
+    }
+    for(int i=0; i<n; i++) {
+        if(!visited[i]) {
+            int prev = -1;
+            int v = i;
+            vector< pair<int,int> > edges_from_M;
+            bool f = false;
+            do {
+                visited[v] = true;
+                if(P[v].first != prev) {
+                    prev = v;
+                    v = P[v].first;
+                } else if(P[v].second != -1) {
+                    prev = v;
+                    v = P[v].second;
+                } else { // not a cycle
+                    f = true;
+                    break;
+                }
+                if(M_prime[prev] == v) {
+                    edges_from_M.push_back({prev, v});
+                }
+            } while(v != i);
+            if(!f) {
+                auto rand = bind(uniform_int_distribution<>(0,edges_from_M.size()-1), engine);
+                pair<int,int> to_remove = edges_from_M[rand()];
+                P.remove(to_remove);
+            }
+        }
+    }
+    matching2 = P;
 
     delete visited;
 }

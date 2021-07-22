@@ -8,7 +8,7 @@ void select(const Graph& g, TwoMatching& matching) {
     bool *visited = new bool[n]();
 
     for(int i=0; i<n; i++) {
-        if(!visited[i]) { // not visited cycle
+        if(!visited[i]) {
             int prev = -1;
             int v = i;
             pair<int, int> smallest_edge;

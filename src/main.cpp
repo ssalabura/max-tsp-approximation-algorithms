@@ -40,11 +40,12 @@ const bool PARALLEL = true;
 int main(int argc, char *argv[]) {
     if(argc != 2) {
         cout << "Usage: [executable] [directory/file path]" << endl;
+        return 1;
     }
     struct stat s;
     if(stat(argv[1],&s) == 0) {
         if(s.st_mode & S_IFDIR) { // DIRECTORY
-            chdir(argv[1]);
+            if(chdir(argv[1]) == -1) return 1;
             struct dirent *de;
             struct stat file_stat;
 
