@@ -1,9 +1,9 @@
 #include "util.hpp"
 #include "maximum_weighted_2_matching.hpp"
 
-void select(const Graph& g, TwoMatching& matching) {
+void select(const Graph& g, TwoMatching& C, TwoMatching& matching) {
     int n = num_vertices(g);
-    maximum_weighted_2_matching(g, matching);
+    matching = C;
 
     bool *visited = new bool[n]();
 
@@ -32,5 +32,5 @@ void select(const Graph& g, TwoMatching& matching) {
         }
     }
 
-    delete visited;
+    delete[] visited;
 }

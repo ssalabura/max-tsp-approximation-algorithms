@@ -12,7 +12,7 @@ TwoMatching::TwoMatching(const Graph& g) : g(g) {
 }
 
 TwoMatching::~TwoMatching() { 
-    delete mate;
+    delete[] mate;
 }
 
 void TwoMatching::clear() {
@@ -105,7 +105,9 @@ FindUnion::FindUnion(int n) : n(n) {
 }
 
 FindUnion::~FindUnion() {
-    delete parent, rank, d;
+    delete[] parent;
+    delete[] rank;
+    delete[] d;
 }
 
 int FindUnion::Find(int v) {

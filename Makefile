@@ -5,7 +5,7 @@ LFLAGS = -pthread
 .PHONY: dirs benchmark clean
 
 all: dirs \
-	out/alg/held-karp \
+	out/alg/gen-2matching out/alg/held-karp \
 	out/alg/none_gree_none out/alg/none_gree_2int \
 	out/alg/none_neig_none out/alg/none_neig_2int \
 	out/alg/matc_none_none out/alg/matc_gree_none out/alg/matc_gree_2int out/alg/matc_neig_none out/alg/matc_neig_2int \
@@ -43,26 +43,29 @@ out/optimize/%.o: src/optimize/%.cpp
 	@mkdir -p out/optimize/
 	@g++ $(FLAGS) -c -o $@ $<
 
-
-out/alg/held-karp: out/main.o out/other/util.o out/other/max_tsp_exact.o out/select/held-karp.o out/finish/none.o out/optimize/none.o
+out/alg/gen-2matching: out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/none.o out/finish/none.o out/optimize/none.o
 	@echo "--- $@"
-	@g++ $(LFLAGS) out/main.o out/other/util.o out/other/max_tsp_exact.o out/select/held-karp.o out/finish/none.o out/optimize/none.o -o out/alg/held-karp
+	@g++ $(LFLAGS) out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/none.o out/finish/none.o out/optimize/none.o -o out/alg/gen-2matching
 
-out/alg/none_gree_none: out/main.o out/other/util.o out/select/none.o out/finish/greedy.o out/optimize/none.o
+out/alg/held-karp: out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/other/max_tsp_exact.o out/select/held-karp.o out/finish/none.o out/optimize/none.o
 	@echo "--- $@"
-	@g++ $(LFLAGS) out/main.o out/other/util.o out/select/none.o out/finish/greedy.o out/optimize/none.o -o out/alg/none_gree_none
+	@g++ $(LFLAGS) out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/other/max_tsp_exact.o out/select/held-karp.o out/finish/none.o out/optimize/none.o -o out/alg/held-karp
 
-out/alg/none_gree_2int: out/main.o out/other/util.o out/select/none.o out/finish/greedy.o out/optimize/two-interchange.o
+out/alg/none_gree_none: out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/none.o out/finish/greedy.o out/optimize/none.o
 	@echo "--- $@"
-	@g++ $(LFLAGS) out/main.o out/other/util.o out/select/none.o out/finish/greedy.o out/optimize/two-interchange.o -o out/alg/none_gree_2int
+	@g++ $(LFLAGS) out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/none.o out/finish/greedy.o out/optimize/none.o -o out/alg/none_gree_none
 
-out/alg/none_neig_none: out/main.o out/other/util.o out/select/none.o out/finish/best-neighbor.o out/optimize/none.o
+out/alg/none_gree_2int: out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/none.o out/finish/greedy.o out/optimize/two-interchange.o
 	@echo "--- $@"
-	@g++ $(LFLAGS) out/main.o out/other/util.o out/select/none.o out/finish/best-neighbor.o out/optimize/none.o -o out/alg/none_neig_none
+	@g++ $(LFLAGS) out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/none.o out/finish/greedy.o out/optimize/two-interchange.o -o out/alg/none_gree_2int
 
-out/alg/none_neig_2int: out/main.o out/other/util.o out/select/none.o out/finish/best-neighbor.o out/optimize/two-interchange.o
+out/alg/none_neig_none: out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/none.o out/finish/best-neighbor.o out/optimize/none.o
 	@echo "--- $@"
-	@g++ $(LFLAGS) out/main.o out/other/util.o out/select/none.o out/finish/best-neighbor.o out/optimize/two-interchange.o -o out/alg/none_neig_2int
+	@g++ $(LFLAGS) out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/none.o out/finish/best-neighbor.o out/optimize/none.o -o out/alg/none_neig_none
+
+out/alg/none_neig_2int: out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/none.o out/finish/best-neighbor.o out/optimize/two-interchange.o
+	@echo "--- $@"
+	@g++ $(LFLAGS) out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/none.o out/finish/best-neighbor.o out/optimize/two-interchange.o -o out/alg/none_neig_2int
 
 out/alg/matc_none_none: out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/matching.o out/finish/none.o out/optimize/none.o
 	@echo "--- $@"
@@ -147,6 +150,7 @@ out/alg/hr___neig_2int: out/main.o out/other/util.o out/other/maximum_weighted_2
 
 benchmark:
 	@echo -- $(path);
+	@printf "generating 2-matchings: "; time -f " %es" out/alg/gen-2matching $(path) 1>/dev/null;
 	@printf "held-karp |               |                 : "; time -f "  time: %es" out/alg/held-karp $(path);
 	@printf "          | greedy        |                 : "; time -f "  time: %es" out/alg/none_gree_none $(path);
 	@printf "          | greedy        | two-interchange : "; time -f "  time: %es" out/alg/none_gree_2int $(path);
@@ -175,3 +179,4 @@ benchmark:
 
 clean:
 	@rm -rf out/
+	@find . -name "*.2mat" -type f -delete

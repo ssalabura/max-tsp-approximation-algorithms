@@ -1,6 +1,7 @@
 #include "util.hpp"
+#include <iostream>
 
-const int MAX = 20;
+const int MAX_N = 20;
 
 bool inS(int v, int s) {
     return (s & (1<<(v-1))) > 0;
@@ -12,10 +13,13 @@ int without(int v, int s) {
 
 void max_tsp_exact(const Graph& g, TwoMatching& matching) {
     int n = num_vertices(g);
-    if(n > MAX) return;
+    if(n > MAX_N) {
+        cerr << "Error: n is too big! (max = " << MAX_N << ") ";
+        return;
+    }
 
-    auto f = new int[MAX][1<<(MAX-1)];
-    auto last = new int[MAX][1<<(MAX-1)];
+    auto f = new int[MAX_N][1<<(MAX_N-1)];
+    auto last = new int[MAX_N][1<<(MAX_N-1)];
 
     for(int v=1; v<n; v++) {
         f[v][0] = weight(0,v,g);
@@ -60,5 +64,6 @@ void max_tsp_exact(const Graph& g, TwoMatching& matching) {
     }
     matching.add(prev, best_last);
 
-    delete f, last;
+    delete[] f;
+    delete[] last;
 }

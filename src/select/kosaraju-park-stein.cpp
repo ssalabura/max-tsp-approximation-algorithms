@@ -3,10 +3,8 @@
 #include <boost/graph/maximum_weighted_matching.hpp>
 #include <iostream>
 
-void select(const Graph& g, TwoMatching& matching) {
+void select(const Graph& g, TwoMatching& C, TwoMatching& matching) {
     int n = num_vertices(g);
-    TwoMatching C(g);
-    maximum_weighted_2_matching(g, C);
 
     bool *visited = new bool[n]();
     int *rep_id = new int[n]; // if x is representative then rep_id[x] is its new vertex id, else rep_id[x]=x
@@ -144,5 +142,9 @@ void select(const Graph& g, TwoMatching& matching) {
         }
     }
 
-    delete visited, rep_id, f, w, in_rep;
+    delete[] visited;
+    delete[] rep_id;
+    delete[] f;
+    delete[] w;
+    delete[] in_rep;
 }

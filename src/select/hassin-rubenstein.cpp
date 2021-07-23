@@ -68,7 +68,7 @@ void A1(const Graph& g, TwoMatching& C, TwoMatching& matching) {
         }
     }
 
-    delete visited;
+    delete[] visited;
 }
 
 void A2(const Graph& g, TwoMatching& C, TwoMatching& matching1, TwoMatching& matching2) {
@@ -236,12 +236,10 @@ void A2(const Graph& g, TwoMatching& C, TwoMatching& matching1, TwoMatching& mat
     }
     matching2 = P;
 
-    delete visited;
+    delete[] visited;
 }
 
-void select(const Graph& g, TwoMatching& matching) {
-    TwoMatching C(g);
-    maximum_weighted_2_matching(g, C);
+void select(const Graph& g, TwoMatching& C, TwoMatching& matching) {
     TwoMatching T1(g), T2(g), T3(g);
     A1(g, C, T1);
     A2(g, C, T2, T3);

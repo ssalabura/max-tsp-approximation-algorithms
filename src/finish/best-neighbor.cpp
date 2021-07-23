@@ -9,7 +9,7 @@ void finish(const Graph& g, TwoMatching& matching) {
     while(matching[start].second != -1) {
         start++;
         if(start == n) {
-            delete visited;
+            delete[] visited;
             return;
         }
     }
@@ -37,5 +37,5 @@ void finish(const Graph& g, TwoMatching& matching) {
     }
     matching.add(v, start);
     
-    delete visited;
+    delete[] visited;
 }

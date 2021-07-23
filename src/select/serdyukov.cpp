@@ -2,13 +2,12 @@
 #include "maximum_weighted_2_matching.hpp"
 #include <boost/graph/maximum_weighted_matching.hpp>
 
-void select(const Graph& g, TwoMatching& matching) {
+void select(const Graph& g, TwoMatching& C, TwoMatching& matching) {
     int n = num_vertices(g);
     bool *visited = new bool[n]();
     FindUnion fu(n);
-    TwoMatching C(g), W(g);
+    TwoMatching W(g);
 
-    maximum_weighted_2_matching(g, C);
     vector<int> W_1(n);
     maximum_weighted_matching(g, &W_1[0]);
     for(int i=0; i<n; i++) {
@@ -49,5 +48,5 @@ void select(const Graph& g, TwoMatching& matching) {
         matching = W;
     }
 
-    delete visited;
+    delete[] visited;
 }

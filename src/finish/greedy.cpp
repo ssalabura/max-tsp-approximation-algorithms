@@ -41,5 +41,5 @@ void finish(const Graph& g, TwoMatching& matching) {
         }
     }
 
-    delete e;
+    delete[] e;
 }

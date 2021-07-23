@@ -1,35 +1,64 @@
 #include "util.hpp"
+#include "maximum_weighted_2_matching.hpp"
 #include <iostream>
 #include <fstream>
 #include <dirent.h>
 #include <sys/stat.h>
 #include <thread>
 
-Graph read_test(char *path) {
-    ifstream file;
-    file.open(path);
+const int MAX_FILES = 1024;
+const int MAX_NAME_LENGTH = 256;
+
+void compute(char *path, int *result) {
+    ifstream g_file;
+    fstream m_file;
+
+    // reading graph
+    g_file.open(path);
+    if (!g_file.good()) {
+        cerr << "error: unable to open file " << path << endl;
+        *result = -1;
+        return;
+    }
         
     int n;
-    file >> n;
+    g_file >> n;
     Graph g(n);
 
     int w;
     for(int i=0; i<n; i++) {
         for(int j=i+1; j<n; j++) {
-            file >> w;
+            g_file >> w;
             add_edge(i,j,w,g);
         }
     }
 
-    file.close();
-    return g;
-}
+    g_file.close();
 
-void compute(const Graph& g, int *result) {
-    int n = num_vertices(g);
+    //reading 2-matching
+    TwoMatching C(g);
+    strcat(path, ".2mat");
+    m_file.open(path);
+    if (!m_file.good()) {
+        ofstream new_m_file;
+        new_m_file.open(path);
+        maximum_weighted_2_matching(g, C);
+        for(int i=0; i<n; i++) {
+            new_m_file << C[i].first << " " << C[i].second << endl;
+        }
+        new_m_file.close();
+    } else {
+        int a,b;
+        for(int i=0; i<n; i++) {
+            m_file >> a >> b;
+            C.add(i,a);
+            C.add(i,b);
+        }
+        m_file.close();
+    }
+
     TwoMatching matching(g);
-
-    select(g, matching);
+    select(g, C, matching);
     finish(g, matching);
     optimize(g, matching);
     *result = matching.weight_sum();
@@ -49,26 +78,24 @@ int main(int argc, char *argv[]) {
             struct dirent *de;
             struct stat file_stat;
 
-            DIR *dir = opendir(".");
-            int count = 0;
-            while(de = readdir(dir)) {
-                stat(de->d_name, &file_stat);
-                if(file_stat.st_mode & S_IFREG) count++;
+            int *result = new int[MAX_FILES];
+            char **filenames = new char*[MAX_FILES];
+            thread *threads;
+            if(PARALLEL) {
+                threads = new thread[MAX_FILES];
             }
-            closedir(dir);
-
-            int *result = new int[count];
-            thread *threads = new thread[count];
             int counter = 0;
-            dir = opendir(".");
+            DIR *dir = opendir(".");
             while(de = readdir(dir)) {
                 stat(de->d_name, &file_stat);
-                if(file_stat.st_mode & S_IFREG) {
-                    Graph g = read_test(de->d_name);
+                int len = strlen(de->d_name);
+                if((file_stat.st_mode & S_IFREG) && strstr(de->d_name, ".2mat") == NULL) {
+                    filenames[counter] = new char[MAX_NAME_LENGTH];
+                    strcpy(filenames[counter], de->d_name);
                     if(PARALLEL) {
-                        threads[counter] = thread(compute, g, &result[counter]);
+                        threads[counter] = thread(compute, filenames[counter], &result[counter]);
                     } else {
-                        compute(g, &result[counter]);
+                        compute(filenames[counter], &result[counter]);
                     }
                     counter++;
                 }
@@ -76,7 +103,7 @@ int main(int argc, char *argv[]) {
             closedir(dir);
 
             int sum = 0;
-            for(int i=0; i<count; i++) {
+            for(int i=0; i<counter; i++) {
                 if(PARALLEL) {
                     threads[i].join();
                 }
@@ -84,25 +111,28 @@ int main(int argc, char *argv[]) {
             }
 
             cout.precision(2);
-            cout << fixed << (float)sum/count;
+            cout << fixed << (float)sum/counter;
 
-            delete result;
+            delete[] result;
+            for(int i=0; i<counter; i++) delete[] filenames[i];
+            delete[] filenames;
+            if(PARALLEL) {
+                delete[] threads;
+            }
             return 0;
         }
         else if(s.st_mode & S_IFREG) { // REGULAR FILE
-            Graph g = read_test(argv[1]);
             int result;
-            compute(g, &result);
+            compute(argv[1], &result);
             cout << result;
-
             return 0;
         }
         else {
-            cerr << "error: wrong file mode";
+            cerr << "error: wrong file mode in " << argv[1] << endl;
             return 1;
         }
     } else {
-        cerr << "error: unable to open file";
+        cerr << "error: unable to open file " << argv[1] << endl;
         return 1;
     }
 }

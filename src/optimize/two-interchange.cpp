@@ -39,6 +39,6 @@ void optimize(const Graph& g, TwoMatching& matching) {
         matching.add(tour[i], tour[i+1]);
     }
 
-    delete tour;
+    delete[] tour;
     return;
 }
