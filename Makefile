@@ -1,6 +1,7 @@
 BOOST = /home/szymon/boost_1_76_0
 FLAGS = -Isrc/other/ -I$(BOOST) -O3
 LFLAGS = -pthread
+BASE = out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o
 
 .PHONY: dirs benchmark clean
 
@@ -43,109 +44,109 @@ out/optimize/%.o: src/optimize/%.cpp
 	@mkdir -p out/optimize/
 	@g++ $(FLAGS) -c -o $@ $<
 
-out/alg/gen-2matching: out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/none.o out/finish/none.o out/optimize/none.o
+out/alg/gen-2matching: $(BASE) out/select/none.o out/finish/none.o out/optimize/none.o
 	@echo "--- $@"
-	@g++ $(LFLAGS) out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/none.o out/finish/none.o out/optimize/none.o -o out/alg/gen-2matching
+	@g++ $(LFLAGS) $(BASE) out/select/none.o out/finish/none.o out/optimize/none.o -o out/alg/gen-2matching
 
-out/alg/held-karp: out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/other/max_tsp_exact.o out/select/held-karp.o out/finish/none.o out/optimize/none.o
+out/alg/held-karp: $(BASE) out/other/max_tsp_exact.o out/select/held-karp.o out/finish/none.o out/optimize/none.o
 	@echo "--- $@"
-	@g++ $(LFLAGS) out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/other/max_tsp_exact.o out/select/held-karp.o out/finish/none.o out/optimize/none.o -o out/alg/held-karp
+	@g++ $(LFLAGS) $(BASE) out/other/max_tsp_exact.o out/select/held-karp.o out/finish/none.o out/optimize/none.o -o out/alg/held-karp
 
-out/alg/none_gree_none: out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/none.o out/finish/greedy.o out/optimize/none.o
+out/alg/none_gree_none: $(BASE) out/select/none.o out/finish/greedy.o out/optimize/none.o
 	@echo "--- $@"
-	@g++ $(LFLAGS) out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/none.o out/finish/greedy.o out/optimize/none.o -o out/alg/none_gree_none
+	@g++ $(LFLAGS) $(BASE) out/select/none.o out/finish/greedy.o out/optimize/none.o -o out/alg/none_gree_none
 
-out/alg/none_gree_2int: out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/none.o out/finish/greedy.o out/optimize/two-interchange.o
+out/alg/none_gree_2int: $(BASE) out/select/none.o out/finish/greedy.o out/optimize/two-interchange.o
 	@echo "--- $@"
-	@g++ $(LFLAGS) out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/none.o out/finish/greedy.o out/optimize/two-interchange.o -o out/alg/none_gree_2int
+	@g++ $(LFLAGS) $(BASE) out/select/none.o out/finish/greedy.o out/optimize/two-interchange.o -o out/alg/none_gree_2int
 
-out/alg/none_neig_none: out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/none.o out/finish/best-neighbor.o out/optimize/none.o
+out/alg/none_neig_none: $(BASE) out/select/none.o out/finish/best-neighbor.o out/optimize/none.o
 	@echo "--- $@"
-	@g++ $(LFLAGS) out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/none.o out/finish/best-neighbor.o out/optimize/none.o -o out/alg/none_neig_none
+	@g++ $(LFLAGS) $(BASE) out/select/none.o out/finish/best-neighbor.o out/optimize/none.o -o out/alg/none_neig_none
 
-out/alg/none_neig_2int: out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/none.o out/finish/best-neighbor.o out/optimize/two-interchange.o
+out/alg/none_neig_2int: $(BASE) out/select/none.o out/finish/best-neighbor.o out/optimize/two-interchange.o
 	@echo "--- $@"
-	@g++ $(LFLAGS) out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/none.o out/finish/best-neighbor.o out/optimize/two-interchange.o -o out/alg/none_neig_2int
+	@g++ $(LFLAGS) $(BASE) out/select/none.o out/finish/best-neighbor.o out/optimize/two-interchange.o -o out/alg/none_neig_2int
 
-out/alg/matc_none_none: out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/matching.o out/finish/none.o out/optimize/none.o
+out/alg/matc_none_none: $(BASE) out/select/matching.o out/finish/none.o out/optimize/none.o
 	@echo "--- $@"
-	@g++ $(LFLAGS) out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/matching.o out/finish/none.o out/optimize/none.o -o out/alg/matc_none_none
+	@g++ $(LFLAGS) $(BASE) out/select/matching.o out/finish/none.o out/optimize/none.o -o out/alg/matc_none_none
 
-out/alg/matc_gree_none: out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/matching.o out/finish/greedy.o out/optimize/none.o
+out/alg/matc_gree_none: $(BASE) out/select/matching.o out/finish/greedy.o out/optimize/none.o
 	@echo "--- $@"
-	@g++ $(LFLAGS) out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/matching.o out/finish/greedy.o out/optimize/none.o -o out/alg/matc_gree_none
+	@g++ $(LFLAGS) $(BASE) out/select/matching.o out/finish/greedy.o out/optimize/none.o -o out/alg/matc_gree_none
 
-out/alg/matc_gree_2int: out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/matching.o out/finish/greedy.o out/optimize/two-interchange.o
+out/alg/matc_gree_2int: $(BASE) out/select/matching.o out/finish/greedy.o out/optimize/two-interchange.o
 	@echo "--- $@"
-	@g++ $(LFLAGS) out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/matching.o out/finish/greedy.o out/optimize/two-interchange.o -o out/alg/matc_gree_2int
+	@g++ $(LFLAGS) $(BASE) out/select/matching.o out/finish/greedy.o out/optimize/two-interchange.o -o out/alg/matc_gree_2int
 
-out/alg/matc_neig_none: out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/matching.o out/finish/best-neighbor.o out/optimize/none.o
+out/alg/matc_neig_none: $(BASE) out/select/matching.o out/finish/best-neighbor.o out/optimize/none.o
 	@echo "--- $@"
-	@g++ $(LFLAGS) out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/matching.o out/finish/best-neighbor.o out/optimize/none.o -o out/alg/matc_neig_none
+	@g++ $(LFLAGS) $(BASE) out/select/matching.o out/finish/best-neighbor.o out/optimize/none.o -o out/alg/matc_neig_none
 
-out/alg/matc_neig_2int: out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/matching.o out/finish/best-neighbor.o out/optimize/two-interchange.o
+out/alg/matc_neig_2int: $(BASE) out/select/matching.o out/finish/best-neighbor.o out/optimize/two-interchange.o
 	@echo "--- $@"
-	@g++ $(LFLAGS) out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/matching.o out/finish/best-neighbor.o out/optimize/two-interchange.o -o out/alg/matc_neig_2int
+	@g++ $(LFLAGS) $(BASE) out/select/matching.o out/finish/best-neighbor.o out/optimize/two-interchange.o -o out/alg/matc_neig_2int
 
-out/alg/serd_none_none: out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/serdyukov.o out/finish/none.o out/optimize/none.o
+out/alg/serd_none_none: $(BASE) out/select/serdyukov.o out/finish/none.o out/optimize/none.o
 	@echo "--- $@"
-	@g++ $(LFLAGS) out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/serdyukov.o out/finish/none.o out/optimize/none.o -o out/alg/serd_none_none
+	@g++ $(LFLAGS) $(BASE) out/select/serdyukov.o out/finish/none.o out/optimize/none.o -o out/alg/serd_none_none
 
-out/alg/serd_gree_none: out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/serdyukov.o out/finish/greedy.o out/optimize/none.o
+out/alg/serd_gree_none: $(BASE) out/select/serdyukov.o out/finish/greedy.o out/optimize/none.o
 	@echo "--- $@"
-	@g++ $(LFLAGS) out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/serdyukov.o out/finish/greedy.o out/optimize/none.o -o out/alg/serd_gree_none
+	@g++ $(LFLAGS) $(BASE) out/select/serdyukov.o out/finish/greedy.o out/optimize/none.o -o out/alg/serd_gree_none
 
-out/alg/serd_gree_2int: out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/serdyukov.o out/finish/greedy.o out/optimize/two-interchange.o
+out/alg/serd_gree_2int: $(BASE) out/select/serdyukov.o out/finish/greedy.o out/optimize/two-interchange.o
 	@echo "--- $@"
-	@g++ $(LFLAGS) out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/serdyukov.o out/finish/greedy.o out/optimize/two-interchange.o -o out/alg/serd_gree_2int
+	@g++ $(LFLAGS) $(BASE) out/select/serdyukov.o out/finish/greedy.o out/optimize/two-interchange.o -o out/alg/serd_gree_2int
 
-out/alg/serd_neig_none: out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/serdyukov.o out/finish/best-neighbor.o out/optimize/none.o
+out/alg/serd_neig_none: $(BASE) out/select/serdyukov.o out/finish/best-neighbor.o out/optimize/none.o
 	@echo "--- $@"
-	@g++ $(LFLAGS) out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/serdyukov.o out/finish/best-neighbor.o out/optimize/none.o -o out/alg/serd_neig_none
+	@g++ $(LFLAGS) $(BASE) out/select/serdyukov.o out/finish/best-neighbor.o out/optimize/none.o -o out/alg/serd_neig_none
 
-out/alg/serd_neig_2int: out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/serdyukov.o out/finish/best-neighbor.o out/optimize/two-interchange.o
+out/alg/serd_neig_2int: $(BASE) out/select/serdyukov.o out/finish/best-neighbor.o out/optimize/two-interchange.o
 	@echo "--- $@"
-	@g++ $(LFLAGS) out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/serdyukov.o out/finish/best-neighbor.o out/optimize/two-interchange.o -o out/alg/serd_neig_2int
+	@g++ $(LFLAGS) $(BASE) out/select/serdyukov.o out/finish/best-neighbor.o out/optimize/two-interchange.o -o out/alg/serd_neig_2int
 
-out/alg/kps__none_none: out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/kosaraju-park-stein.o out/finish/none.o out/optimize/none.o
+out/alg/kps__none_none: $(BASE) out/select/kosaraju-park-stein.o out/finish/none.o out/optimize/none.o
 	@echo "--- $@"
-	@g++ $(LFLAGS) out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/kosaraju-park-stein.o out/finish/none.o out/optimize/none.o -o out/alg/kps__none_none
+	@g++ $(LFLAGS) $(BASE) out/select/kosaraju-park-stein.o out/finish/none.o out/optimize/none.o -o out/alg/kps__none_none
 
-out/alg/kps__gree_none: out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/kosaraju-park-stein.o out/finish/greedy.o out/optimize/none.o
+out/alg/kps__gree_none: $(BASE) out/select/kosaraju-park-stein.o out/finish/greedy.o out/optimize/none.o
 	@echo "--- $@"
-	@g++ $(LFLAGS) out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/kosaraju-park-stein.o out/finish/greedy.o out/optimize/none.o -o out/alg/kps__gree_none
+	@g++ $(LFLAGS) $(BASE) out/select/kosaraju-park-stein.o out/finish/greedy.o out/optimize/none.o -o out/alg/kps__gree_none
 
-out/alg/kps__gree_2int: out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/kosaraju-park-stein.o out/finish/greedy.o out/optimize/two-interchange.o
+out/alg/kps__gree_2int: $(BASE) out/select/kosaraju-park-stein.o out/finish/greedy.o out/optimize/two-interchange.o
 	@echo "--- $@"
-	@g++ $(LFLAGS) out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/kosaraju-park-stein.o out/finish/greedy.o out/optimize/two-interchange.o -o out/alg/kps__gree_2int
+	@g++ $(LFLAGS) $(BASE) out/select/kosaraju-park-stein.o out/finish/greedy.o out/optimize/two-interchange.o -o out/alg/kps__gree_2int
 
-out/alg/kps__neig_none: out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/kosaraju-park-stein.o out/finish/best-neighbor.o out/optimize/none.o
+out/alg/kps__neig_none: $(BASE) out/select/kosaraju-park-stein.o out/finish/best-neighbor.o out/optimize/none.o
 	@echo "--- $@"
-	@g++ $(LFLAGS) out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/kosaraju-park-stein.o out/finish/best-neighbor.o out/optimize/none.o -o out/alg/kps__neig_none
+	@g++ $(LFLAGS) $(BASE) out/select/kosaraju-park-stein.o out/finish/best-neighbor.o out/optimize/none.o -o out/alg/kps__neig_none
 
-out/alg/kps__neig_2int: out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/kosaraju-park-stein.o out/finish/best-neighbor.o out/optimize/two-interchange.o
+out/alg/kps__neig_2int: $(BASE) out/select/kosaraju-park-stein.o out/finish/best-neighbor.o out/optimize/two-interchange.o
 	@echo "--- $@"
-	@g++ $(LFLAGS) out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/select/kosaraju-park-stein.o out/finish/best-neighbor.o out/optimize/two-interchange.o -o out/alg/kps__neig_2int
+	@g++ $(LFLAGS) $(BASE) out/select/kosaraju-park-stein.o out/finish/best-neighbor.o out/optimize/two-interchange.o -o out/alg/kps__neig_2int
 
-out/alg/hr___none_none: out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/other/max_tsp_exact.o out/select/hassin-rubenstein.o out/finish/none.o out/optimize/none.o
+out/alg/hr___none_none: $(BASE) out/other/max_tsp_exact.o out/select/hassin-rubenstein.o out/finish/none.o out/optimize/none.o
 	@echo "--- $@"
-	@g++ $(LFLAGS) out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/other/max_tsp_exact.o out/select/hassin-rubenstein.o out/finish/none.o out/optimize/none.o -o out/alg/hr___none_none
+	@g++ $(LFLAGS) $(BASE) out/other/max_tsp_exact.o out/select/hassin-rubenstein.o out/finish/none.o out/optimize/none.o -o out/alg/hr___none_none
 
-out/alg/hr___gree_none: out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/other/max_tsp_exact.o out/select/hassin-rubenstein.o out/finish/greedy.o out/optimize/none.o
+out/alg/hr___gree_none: $(BASE) out/other/max_tsp_exact.o out/select/hassin-rubenstein.o out/finish/greedy.o out/optimize/none.o
 	@echo "--- $@"
-	@g++ $(LFLAGS) out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/other/max_tsp_exact.o out/select/hassin-rubenstein.o out/finish/greedy.o out/optimize/none.o -o out/alg/hr___gree_none
+	@g++ $(LFLAGS) $(BASE) out/other/max_tsp_exact.o out/select/hassin-rubenstein.o out/finish/greedy.o out/optimize/none.o -o out/alg/hr___gree_none
 
-out/alg/hr___gree_2int: out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/other/max_tsp_exact.o out/select/hassin-rubenstein.o out/finish/greedy.o out/optimize/two-interchange.o
+out/alg/hr___gree_2int: $(BASE) out/other/max_tsp_exact.o out/select/hassin-rubenstein.o out/finish/greedy.o out/optimize/two-interchange.o
 	@echo "--- $@"
-	@g++ $(LFLAGS) out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/other/max_tsp_exact.o out/select/hassin-rubenstein.o out/finish/greedy.o out/optimize/two-interchange.o -o out/alg/hr___gree_2int
+	@g++ $(LFLAGS) $(BASE) out/other/max_tsp_exact.o out/select/hassin-rubenstein.o out/finish/greedy.o out/optimize/two-interchange.o -o out/alg/hr___gree_2int
 
-out/alg/hr___neig_none: out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/other/max_tsp_exact.o out/select/hassin-rubenstein.o out/finish/best-neighbor.o out/optimize/none.o
+out/alg/hr___neig_none: $(BASE) out/other/max_tsp_exact.o out/select/hassin-rubenstein.o out/finish/best-neighbor.o out/optimize/none.o
 	@echo "--- $@"
-	@g++ $(LFLAGS) out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/other/max_tsp_exact.o out/select/hassin-rubenstein.o out/finish/best-neighbor.o out/optimize/none.o -o out/alg/hr___neig_none
+	@g++ $(LFLAGS) $(BASE) out/other/max_tsp_exact.o out/select/hassin-rubenstein.o out/finish/best-neighbor.o out/optimize/none.o -o out/alg/hr___neig_none
 
-out/alg/hr___neig_2int: out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/other/max_tsp_exact.o out/select/hassin-rubenstein.o out/finish/best-neighbor.o out/optimize/two-interchange.o
+out/alg/hr___neig_2int: $(BASE) out/other/max_tsp_exact.o out/select/hassin-rubenstein.o out/finish/best-neighbor.o out/optimize/two-interchange.o
 	@echo "--- $@"
-	@g++ $(LFLAGS) out/main.o out/other/util.o out/other/maximum_weighted_2_matching.o out/other/max_tsp_exact.o out/select/hassin-rubenstein.o out/finish/best-neighbor.o out/optimize/two-interchange.o -o out/alg/hr___neig_2int
+	@g++ $(LFLAGS) $(BASE) out/other/max_tsp_exact.o out/select/hassin-rubenstein.o out/finish/best-neighbor.o out/optimize/two-interchange.o -o out/alg/hr___neig_2int
 
 
 benchmark:
