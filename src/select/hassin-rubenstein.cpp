@@ -6,7 +6,7 @@
 #include <sys/time.h>
 #include <iostream>
 
-int epsilon = 0; // A1 works exactly like matching heuristic
+int epsilon = 5;
 
 void A1(const Graph& g, TwoMatching& C, TwoMatching& matching) {
     int n = num_vertices(g);
@@ -45,6 +45,7 @@ void A1(const Graph& g, TwoMatching& C, TwoMatching& matching) {
                     matching.remove(cycle[j], cycle[j+1]);
                 }
                 matching.remove(cycle[cycle.size()-1], cycle[0]);
+
                 // creating subgraph with vertices only from this cycle (plus additional one for reduction to max-TSP)
                 Graph c(cycle.size()+1);
                 TwoMatching c_matching(cycle.size()+1);
@@ -55,6 +56,7 @@ void A1(const Graph& g, TwoMatching& C, TwoMatching& matching) {
                     add_edge(j, cycle.size(), 0, c);
                 }
                 max_tsp_exact(c, c_matching);
+
                 // adding hamiltonian path to our matching
                 for(int j=0; j<cycle.size(); j++) {
                     if(c_matching[j].first != -1 && c_matching[j].first != cycle.size()) {
@@ -73,7 +75,7 @@ void A1(const Graph& g, TwoMatching& C, TwoMatching& matching) {
 
 void A2(const Graph& g, TwoMatching& C, TwoMatching& matching1, TwoMatching& matching2) {
     int n = num_vertices(g);
-    // random engine based on time
+    // random engine (based on time if wanted)
     struct timeval time_now{};
     gettimeofday(&time_now, nullptr);
     auto engine = default_random_engine();
@@ -247,9 +249,9 @@ void select(const Graph& g, TwoMatching& C, TwoMatching& matching) {
     int w2 = T2.weight_sum();
     int w3 = T3.weight_sum();
     // cout << w1 << ", " << w2 << ", " << w3 << endl;
-    if(w1 > w2 && w1 > w3) {
+    if(w1 >= w2 && w1 >= w3) {
         matching = T1;
-    } else if(w2 > w1 && w2 > w3) {
+    } else if(w2 >= w1 && w2 >= w3) {
         matching = T2;
     } else {
         matching = T3;
