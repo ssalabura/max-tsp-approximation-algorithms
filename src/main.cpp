@@ -11,7 +11,6 @@ const int MAX_NAME_LENGTH = 256;
 
 void compute(char *path, int *result) {
     ifstream g_file;
-    fstream m_file;
 
     // reading graph
     g_file.open(path);
@@ -36,13 +35,14 @@ void compute(char *path, int *result) {
     g_file.close();
 
     //reading 2-matching
+    fstream m_file;
     TwoMatching C(g);
     strcat(path, ".2mat");
     m_file.open(path);
     if (!m_file.good()) {
+        maximum_weighted_2_matching(g, C);
         ofstream new_m_file;
         new_m_file.open(path);
-        maximum_weighted_2_matching(g, C);
         for(int i=0; i<n; i++) {
             new_m_file << C[i].first << " " << C[i].second << endl;
         }
@@ -54,8 +54,8 @@ void compute(char *path, int *result) {
             C.add(i,a);
             C.add(i,b);
         }
-        m_file.close();
     }
+    m_file.close();
 
     TwoMatching matching(g);
     select(g, C, matching);

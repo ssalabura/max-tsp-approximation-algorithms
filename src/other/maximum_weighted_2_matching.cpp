@@ -10,7 +10,8 @@
 void maximum_weighted_2_matching(const Graph& g, TwoMatching& matching) {
     int n = num_vertices(g);
     int MAX_WEIGHT = 1500;
-    Graph g_prime(2*n*n);
+    SparseGraph g_prime(2*n*n);
+
     for(int i=0; i<n; i++) {
         // core vertices
         int core1 = 2*n*i+i;
@@ -18,8 +19,8 @@ void maximum_weighted_2_matching(const Graph& g, TwoMatching& matching) {
         // core edges
         for(int inner=2*n*i+n; inner<2*n*(i+1); inner++) {
             if(inner != core2) {
-                add_edge(inner,core1,2*MAX_WEIGHT,g_prime);
-                add_edge(inner,core2,2*MAX_WEIGHT,g_prime);
+                add_edge(inner,core1,3*MAX_WEIGHT,g_prime);
+                add_edge(inner,core2,3*MAX_WEIGHT,g_prime);
             }
         }
         // inner edges

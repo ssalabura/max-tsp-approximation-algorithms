@@ -2,10 +2,12 @@
 #define UTIL
 
 #include <boost/graph/adjacency_matrix.hpp>
+#include <boost/graph/adjacency_list.hpp>
 using namespace std;
 using namespace boost;
 
 typedef adjacency_matrix< undirectedS, no_property, property< edge_weight_t, int > > Graph;
+typedef adjacency_list< vecS, vecS, undirectedS, no_property, property< edge_weight_t, int > > SparseGraph;
 
 int weight(int u, int v, const Graph& g);
 
