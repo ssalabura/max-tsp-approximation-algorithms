@@ -92,6 +92,7 @@ TwoMatching& TwoMatching::operator=(const TwoMatching& other) {
     for(int i=0; i<n; i++) {
         mate[i] = other.mate[i];
     }
+    return *this;
 }
 
 FindUnion::FindUnion(int n) : n(n) {
@@ -145,4 +146,5 @@ FindUnion& FindUnion::operator=(const FindUnion& other) {
         d[i] = other.d[i];
         edges_count = other.edges_count;
     }
+    return *this;
 }

@@ -249,9 +249,9 @@ void select(const Graph& g, TwoMatching& C, TwoMatching& matching) {
     int w2 = T2.weight_sum();
     int w3 = T3.weight_sum();
     // cout << w1 << ", " << w2 << ", " << w3 << endl;
-    if(w1 >= w2 && w1 >= w3) {
+    if(w1 > w2 && w1 > w3) {
         matching = T1;
-    } else if(w2 >= w1 && w2 >= w3) {
+    } else if(w2 > w3) {
         matching = T2;
     } else {
         matching = T3;
